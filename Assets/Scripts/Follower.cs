@@ -5,19 +5,31 @@ using PathCreation;
 
 public class Follower : MonoBehaviour
 {
+
     public PathCreator pathCreator;
     public EndOfPathInstruction endOfPathInstruction;
-    public float speed = 5;
+    public float speed = 0.3f;
     float distanceTravelled;
+    public bool touchOrNot;
 
-    void Update()
+    public void Start()
     {
-        if (pathCreator!=null)
+        touchOrNot = false;
+        speed = 0.25f;
+    }
+
+    public void Update()
+    {
+        if (pathCreator!=null&&touchOrNot)
         {
         distanceTravelled += speed * Time.deltaTime;
         transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled,endOfPathInstruction);
         transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled,endOfPathInstruction);
-
+            if (this.gameObject.GetComponent<Transform>().position.z<-56.9999f&& this.gameObject.GetComponent<Transform>().position.z>-57f)
+            {
+                touchOrNot = false;
+            }
+        
 
         }
 
